@@ -1,4 +1,4 @@
-# GTE-PPIS (ESM-2 Feature Fusion Extension)
+# Multi Feature PPIS Prediction (ESM-2 Feature Fusion Extension)
 
 GTE-PPIS is a structure-based protein-protein interaction site (PPIS) predictor combining a Graph Transformer (GT) and an Equivariant Graph Neural Network (EGNN). This repository extends the published GTE-PPIS model (Wang et al., 2025, *Bioinformatics*) with a **Feature Fusion Module (FFM)** that integrates ESM-2 (650M) protein language model embeddings with classical handcrafted features via a learned, biophysics-supervised gating mechanism.
 
