@@ -1,0 +1,312 @@
+==============================================
+Evaluate on Test_60
+==============================================
+Fold1_best_model.pkl
+Validation threshold for Fold1_best_model.pkl (Fold 1): 0.56 (val F1: 0.5438)
+========== Evaluate Test set ==========
+Test loss:  0.6081673833231132
+Test binary acc:  0.8388618381010347
+Test precision: 0.49117043121149895
+Test recall:  0.5763855421686747
+Test f1:  0.5303769401330377
+Test AUROC:  0.8468725094614613
+Test MCC:  0.435892599474667
+Test AUPRC:  0.5368658411662781
+Threshold:  0.56
+
+Fold2_best_model.pkl
+Validation threshold for Fold2_best_model.pkl (Fold 2): 0.51 (val F1: 0.5212)
+========== Evaluate Test set ==========
+Test loss:  0.7213260004917781
+Test binary acc:  0.8545343883140597
+Test precision: 0.5393910101498308
+Test recall:  0.5378313253012048
+Test f1:  0.5386100386100386
+Test AUROC:  0.8500654057190004
+Test MCC:  0.452266990937894
+Test AUPRC:  0.5571653221422249
+Threshold:  0.51
+
+Fold3_best_model.pkl
+Validation threshold for Fold3_best_model.pkl (Fold 3): 0.71 (val F1: 0.5456)
+========== Evaluate Test set ==========
+Test loss:  0.49254548698663714
+Test binary acc:  0.8472306755934267
+Test precision: 0.5140343527440302
+Test recall:  0.5913253012048193
+Test f1:  0.549977588525325
+Test AUROC:  0.8610970179389525
+Test MCC:  0.4601499685700428
+Test AUPRC:  0.5652864756171462
+Threshold:  0.71
+
+Fold4_best_model.pkl
+Validation threshold for Fold4_best_model.pkl (Fold 4): 0.63 (val F1: 0.5041)
+========== Evaluate Test set ==========
+Test loss:  0.5545366662244002
+Test binary acc:  0.8237979306147292
+Test precision: 0.4569181265641759
+Test recall:  0.6159036144578314
+Test f1:  0.5246305418719212
+Test AUROC:  0.8425630247070132
+Test MCC:  0.4264314064625215
+Test AUPRC:  0.5146202366567898
+Threshold:  0.63
+
+Fold5_best_model.pkl
+Validation threshold for Fold5_best_model.pkl (Fold 5): 0.71 (val F1: 0.5337)
+========== Evaluate Test set ==========
+Test loss:  0.5348438732326031
+Test binary acc:  0.842741935483871
+Test precision: 0.5018083182640145
+Test recall:  0.5349397590361445
+Test f1:  0.5178446466060181
+Test AUROC:  0.8377440741373663
+Test MCC:  0.4243183143899036
+Test AUPRC:  0.51555416181992
+Threshold:  0.71
+
+Full_model_28.pkl
+Using average fold validation threshold for Full_model_28.pkl: 0.62
+========== Evaluate Test set ==========
+Test loss:  0.5397614861528078
+Test binary acc:  0.7430006086427268
+Test precision: 0.3586461271425472
+Test recall:  0.7966265060240963
+Test f1:  0.49461400359066426
+Test AUROC:  0.8488717322991488
+Test MCC:  0.40465516924329453
+Test AUPRC:  0.528390682816253
+Threshold:  0.624
+
+Full_model_45.pkl
+Using average fold validation threshold for Full_model_45.pkl: 0.62
+========== Evaluate Test set ==========
+Test loss:  0.9156266406178475
+Test binary acc:  0.4965003043213634
+Test precision: 0.22884087382117704
+Test recall:  0.923855421686747
+Test f1:  0.3668197474167623
+Test AUROC:  0.8169646260532237
+Test MCC:  0.2580395580615571
+Test AUPRC:  0.4811253013728155
+Threshold:  0.624
+
+========== Cross-Validation Results ==========
+Average binary acc:  0.8414333536214242
+Average precision:  0.50066444778671
+Average recall:  0.5712771084337349
+Average f1:  0.5322879511492682
+Average AUROC:  0.8476684063927588
+Average MCC:  0.4398118559670057
+Average AUPRC:  0.5378984074804718
+Average threshold:  0.624
+
+==============================================
+Evaluate on Test_315-28
+==============================================
+Fold1_best_model.pkl
+Validation threshold for Fold1_best_model.pkl (Fold 1): 0.56 (val F1: 0.5438)
+========== Evaluate Test set ==========
+Test loss:  0.5455858287910966
+Test binary acc:  0.8146945806280641
+Test precision: 0.40331858407079646
+Test recall:  0.6384543544244689
+Test f1:  0.4943505378287987
+Test AUROC:  0.8432730306495794
+Test MCC:  0.4032505072062351
+Test AUPRC:  0.504082756626415
+Threshold:  0.56
+
+Fold2_best_model.pkl
+Validation threshold for Fold2_best_model.pkl (Fold 2): 0.51 (val F1: 0.5212)
+========== Evaluate Test set ==========
+Test loss:  0.5621317147377891
+Test binary acc:  0.8276136213064794
+Test precision: 0.43062669478758664
+Test recall:  0.6674060238150828
+Test f1:  0.5234868601776395
+Test AUROC:  0.8624950975030761
+Test MCC:  0.4393517441269407
+Test AUPRC:  0.5312269181689329
+Threshold:  0.51
+
+Fold3_best_model.pkl
+Validation threshold for Fold3_best_model.pkl (Fold 3): 0.71 (val F1: 0.5456)
+========== Evaluate Test set ==========
+Test loss:  0.46169390994081927
+Test binary acc:  0.8268020405459123
+Test precision: 0.43302401360062337
+Test recall:  0.7136353023581602
+Test f1:  0.5389939602345368
+Test AUROC:  0.8722112538030826
+Test MCC:  0.4609492223922899
+Test AUPRC:  0.5462463256217172
+Threshold:  0.71
+
+Fold4_best_model.pkl
+Validation threshold for Fold4_best_model.pkl (Fold 4): 0.63 (val F1: 0.5041)
+========== Evaluate Test set ==========
+Test loss:  0.48450990446976255
+Test binary acc:  0.8019742944216245
+Test precision: 0.39299242424242425
+Test recall:  0.7267102498248891
+Test f1:  0.5101204621814308
+Test AUROC:  0.8571442263108398
+Test MCC:  0.4292031477784232
+Test AUPRC:  0.505935265807939
+Threshold:  0.63
+
+Fold5_best_model.pkl
+Validation threshold for Fold5_best_model.pkl (Fold 5): 0.71 (val F1: 0.5337)
+========== Evaluate Test set ==========
+Test loss:  0.4829751014813313
+Test binary acc:  0.8299158606068636
+Test precision: 0.4348358460243361
+Test recall:  0.6633201027317301
+Test f1:  0.5253085563722091
+Test AUROC:  0.8575203908496097
+Test MCC:  0.44125571433112803
+Test AUPRC:  0.5033982929962726
+Threshold:  0.71
+
+Full_model_28.pkl
+Using average fold validation threshold for Full_model_28.pkl: 0.62
+========== Evaluate Test set ==========
+Test loss:  0.5521792704012336
+Test binary acc:  0.6712601033523254
+Test precision: 0.2874689171878532
+Test recall:  0.8907307961709082
+Test f1:  0.4346587672325396
+Test AUROC:  0.8549302501376393
+Test MCC:  0.36956788849533867
+Test AUPRC:  0.5035258144836148
+Threshold:  0.624
+
+Full_model_45.pkl
+Using average fold validation threshold for Full_model_45.pkl: 0.62
+========== Evaluate Test set ==========
+Test loss:  1.0430901982020002
+Test binary acc:  0.44343778985027166
+Test precision: 0.19837120208177722
+Test recall:  0.9611253794069577
+Test f1:  0.32886616469272406
+Test AUROC:  0.8281296316850895
+Test MCC:  0.24009731282854227
+Test AUPRC:  0.4507324826288335
+Threshold:  0.624
+
+========== Cross-Validation Results ==========
+Average binary acc:  0.8202000795017887
+Average precision:  0.41895951254515335
+Average recall:  0.6819052066308663
+Average f1:  0.518452075358923
+Average AUROC:  0.8585287998232376
+Average MCC:  0.4348020671670034
+Average AUPRC:  0.5181779118442552
+Average threshold:  0.624
+
+==============================================
+Evaluate on UBtest_31-6
+==============================================
+Fold1_best_model.pkl
+Validation threshold for Fold1_best_model.pkl (Fold 1): 0.56 (val F1: 0.5438)
+========== Evaluate Test set ==========
+Test loss:  0.7108587265014649
+Test binary acc:  0.8450228156160217
+Test precision: 0.3489736070381232
+Test recall:  0.33473980309423346
+Test f1:  0.3417085427135678
+Test AUROC:  0.7675004984511543
+Test MCC:  0.25399555643229516
+Test AUPRC:  0.31539830393920304
+Threshold:  0.56
+
+Fold2_best_model.pkl
+Validation threshold for Fold2_best_model.pkl (Fold 2): 0.51 (val F1: 0.5212)
+========== Evaluate Test set ==========
+Test loss:  0.8110230040550231
+Test binary acc:  0.8642893358120669
+Test precision: 0.40980392156862744
+Test recall:  0.2939521800281294
+Test f1:  0.34234234234234234
+Test AUROC:  0.7609532277211245
+Test MCC:  0.27357892828086877
+Test AUPRC:  0.31780477272080904
+Threshold:  0.51
+
+Fold3_best_model.pkl
+Validation threshold for Fold3_best_model.pkl (Fold 3): 0.71 (val F1: 0.5456)
+========== Evaluate Test set ==========
+Test loss:  0.5965233790874481
+Test binary acc:  0.8556701030927835
+Test precision: 0.3918305597579425
+Test recall:  0.36427566807313644
+Test f1:  0.37755102040816324
+Test AUROC:  0.7645581507435162
+Test MCC:  0.296296641070361
+Test AUPRC:  0.32380961159794364
+Threshold:  0.71
+
+Fold4_best_model.pkl
+Validation threshold for Fold4_best_model.pkl (Fold 4): 0.63 (val F1: 0.5041)
+========== Evaluate Test set ==========
+Test loss:  0.633818918466568
+Test binary acc:  0.832854487071151
+Test precision: 0.3333333333333333
+Test recall:  0.3909985935302391
+Test f1:  0.3598705501618123
+Test AUROC:  0.75569247427911
+Test MCC:  0.2655620186386122
+Test AUPRC:  0.2921610503543246
+Threshold:  0.63
+
+Fold5_best_model.pkl
+Validation threshold for Fold5_best_model.pkl (Fold 5): 0.71 (val F1: 0.5337)
+========== Evaluate Test set ==========
+Test loss:  0.580906371474266
+Test binary acc:  0.8538110528984283
+Test precision: 0.37293729372937295
+Test recall:  0.3178621659634318
+Test f1:  0.343204252088079
+Test AUROC:  0.7579475267367037
+Test MCC:  0.26260140915689556
+Test AUPRC:  0.30863555306604223
+Threshold:  0.71
+
+Full_model_28.pkl
+Using average fold validation threshold for Full_model_28.pkl: 0.62
+========== Evaluate Test set ==========
+Test loss:  0.6087700396776199
+Test binary acc:  0.7562954199763393
+Test precision: 0.26373626373626374
+Test recall:  0.5738396624472574
+Test f1:  0.36138175376439324
+Test AUROC:  0.7597932819050615
+Test MCC:  0.2627211182737014
+Test AUPRC:  0.30677923532006296
+Threshold:  0.624
+
+Full_model_45.pkl
+Using average fold validation threshold for Full_model_45.pkl: 0.62
+========== Evaluate Test set ==========
+Test loss:  0.9193228101730346
+Test binary acc:  0.5076897076221057
+Test precision: 0.1738744075829384
+Test recall:  0.8255977496483825
+Test f1:  0.28725226327379494
+Test AUROC:  0.7189862070865976
+Test MCC:  0.19040844967152
+Test AUPRC:  0.25553565133186074
+Threshold:  0.624
+
+========== Cross-Validation Results ==========
+Average binary acc:  0.8503295588980903
+Average precision:  0.3713757430854799
+Average recall:  0.340365682137834
+Average f1:  0.35293534154279294
+Average AUROC:  0.7613303755863218
+Average MCC:  0.2704069107158065
+Average AUPRC:  0.3115618583356645
+Average threshold:  0.624
+
