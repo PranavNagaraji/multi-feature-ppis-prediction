@@ -135,14 +135,12 @@ def main():
             save_fallback("degenerate B-factor distribution")
             continue
 
-        # Length alignment (mirrors generate_rsa_features.py)
+        # Length mismatch: alignment is unreliable (gaps may be interior).
+        # Write neutral 0.5 for the whole protein instead of truncate/pad.
         if len(normed) != seq_len:
             print(f"  [len mismatch] {pid}: PDB has {len(normed)} residues, sequence has {seq_len}")
-            if len(normed) > seq_len:
-                normed = normed[:seq_len]
-            else:
-                padding = np.full((seq_len - len(normed),), 0.5, dtype=np.float32)
-                normed  = np.concatenate([normed, padding])
+            save_fallback("length mismatch — interior gaps likely, alignment unsafe")
+            continue
 
         np.save(out_path, normed)
         success_count += 1
