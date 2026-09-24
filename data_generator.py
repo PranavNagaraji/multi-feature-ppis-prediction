@@ -91,7 +91,7 @@ def load_graph(sequence_name):
 
 
 def graph_collate(samples):
-    sequence_name, sequence, label, node_features, G, adj_matrix, xyz_feats, edges, edge_att, edge_feat, plm_features, rsa_features = map(list, zip(*samples))
+    sequence_name, sequence, label, node_features, G, adj_matrix, xyz_feats, edges, edge_att, edge_feat, plm_features, rsa_features, bfactor_features = map(list, zip(*samples))
     label = torch.Tensor(label)
     G_batch = dgl.batch(G)
     node_features = torch.cat(node_features)
@@ -104,7 +104,8 @@ def graph_collate(samples):
     edge_feat = torch.cat(edge_feat)
     plm_features = torch.cat(plm_features)
     rsa_features = torch.cat(rsa_features)
-    return sequence_name, sequence, label, node_features, G_batch, adj_matrix, xyz_feats, edges, edge_att, edge_feat, plm_features, rsa_features
+    bfactor_features = torch.cat(bfactor_features)
+    return sequence_name, sequence, label, node_features, G_batch, adj_matrix, xyz_feats, edges, edge_att, edge_feat, plm_features, rsa_features, bfactor_features
 
 
 class ProDataset(Dataset):
@@ -165,6 +166,20 @@ class ProDataset(Dataset):
             rsa_features = np.full((len(sequence),), 0.5, dtype=np.float32)
         rsa_features = torch.from_numpy(rsa_features)
 
+        # Load per-residue normalised B-factor features
+        bfactor_path = os.path.join(Feature_Path, "bfactor", f"{sequence_name}.npy")
+        if os.path.exists(bfactor_path):
+            bfactor_features = np.load(bfactor_path).astype(np.float32)
+            seq_len = len(sequence)
+            if len(bfactor_features) != seq_len:
+                if len(bfactor_features) > seq_len:
+                    bfactor_features = bfactor_features[:seq_len]
+                else:
+                    bfactor_features = np.concatenate([bfactor_features, np.full((seq_len - len(bfactor_features),), 0.5, dtype=np.float32)])
+        else:
+            bfactor_features = np.full((len(sequence),), 0.5, dtype=np.float32)
+        bfactor_features = torch.from_numpy(bfactor_features)
+
         radius_index_list = cal_edges(sequence_name, MAP_CUTOFF)
         edges = [radius_index_list[0], radius_index_list[1]]
         edge_feat, edge_att = self.cal_edge_attr(radius_index_list, pos)
@@ -178,7 +193,7 @@ class ProDataset(Dataset):
 
         adj_matrix = load_graph(sequence_name)
 
-        return sequence_name, sequence, label, node_features, G, adj_matrix, xyz_feats, edges, edge_att, edge_feat, plm_features, rsa_features
+        return sequence_name, sequence, label, node_features, G, adj_matrix, xyz_feats, edges, edge_att, edge_feat, plm_features, rsa_features, bfactor_features
 
     def __len__(self):
         return len(self.labels)

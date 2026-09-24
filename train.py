@@ -11,6 +11,7 @@ from torch.utils.data import DataLoader
 from data_generator import *
 from EGNN_model import *
 from final_model import *
+from final_model import ALPHA_RSA
 from GraphTransformer_Block import *
 from loss import compute_pos_weight
 
@@ -46,13 +47,14 @@ def train_one_epoch(model, data_loader, lambda_gate=LAMBDA_GATE, lambda_agree=LA
     n = 0
     for data in data_loader:
         model.optimizer.zero_grad()
-        _, _, labels, node_features, G_batch, adj_matrix, xyz_feats, edges, edge_att, edge_feat, plm_features, rsa_features = data
+        _, _, labels, node_features, G_batch, adj_matrix, xyz_feats, edges, edge_att, edge_feat, plm_features, rsa_features, bfactor_features = data
 
 
         if torch.cuda.is_available():
             node_features = Variable(node_features.cuda().float())
             plm_features = Variable(plm_features.cuda().float())
             rsa_features = Variable(rsa_features.cuda().float())
+            bfactor_features = Variable(bfactor_features.cuda().float())
             G_batch.edata['ex'] = Variable(G_batch.edata['ex'].float())
             G_batch = G_batch.to(torch.device('cuda:0'))
             adj_matrix = Variable(adj_matrix.cuda())
@@ -65,6 +67,7 @@ def train_one_epoch(model, data_loader, lambda_gate=LAMBDA_GATE, lambda_agree=LA
             node_features = Variable(node_features.float())
             plm_features = Variable(plm_features.float())
             rsa_features = Variable(rsa_features.float())
+            bfactor_features = Variable(bfactor_features.float())
             G_batch.edata['ex'] = Variable(G_batch.edata['ex'].float())
             adj_matrix = Variable(adj_matrix)
             xyz_feats = Variable(xyz_feats.float())
@@ -84,7 +87,8 @@ def train_one_epoch(model, data_loader, lambda_gate=LAMBDA_GATE, lambda_agree=LA
 
         # calculate auxiliary losses (Idea 1 & Idea 2)
         total_aux_loss, loss_gate, loss_agree = model.compute_auxiliary_losses(
-            rsa_target=rsa_features, lambda_gate=lambda_gate, lambda_agree=lambda_agree
+            rsa_target=rsa_features, bfactor_target=bfactor_features,
+            lambda_gate=lambda_gate, lambda_agree=lambda_agree
         )
 
         loss = loss_focal + total_aux_loss
@@ -115,7 +119,7 @@ def evaluate(model, data_loader):
 
     for data in data_loader:
         with torch.no_grad():
-            sequence_names, _, labels, node_features, G_batch, adj_matrix, xyz_feats, edges, edge_att, edge_feat, plm_features, rsa_features = data
+            sequence_names, _, labels, node_features, G_batch, adj_matrix, xyz_feats, edges, edge_att, edge_feat, plm_features, rsa_features, bfactor_features = data
 
             if torch.cuda.is_available():
                 node_features = Variable(node_features.cuda().float())
@@ -269,6 +273,7 @@ def cross_validation(all_dataframe, fold_number=5):
     print("Lambda:", LAMBDA)
     print("Learning rate:", LEARNING_RATE)
     print("Training epochs:", NUMBER_EPOCHS)
+    print(f"[config] ALPHA_RSA={ALPHA_RSA}")
     print()
 
     # 取出dataframe中的值

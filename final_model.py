@@ -13,6 +13,12 @@ from loss import FocalLoss
 # pos_weight is supplied (e.g. during testing / checkpoint loading).
 _DEFAULT_POS_WEIGHT = 5.4056
 
+# Fixed mixing coefficient for the joint biophysical gate target:
+#   tau_i = 1 - [ALPHA_RSA * RSA_i + (1 - ALPHA_RSA) * B_norm_i]
+# ALPHA_RSA=1.0 reduces to pure-RSA supervision (original behaviour).
+# Not a learnable parameter: a learnable alpha under MSE is degenerate.
+ALPHA_RSA = 0.5
+
 
 class FinalModel(nn.Module):
     def __init__(self, input_size, hidden_size, fliter_size, output_size, dropout_rate,
@@ -93,16 +99,23 @@ class FinalModel(nn.Module):
         x = (x1 + x2) / 2
         return x
 
-    def compute_auxiliary_losses(self, rsa_target=None, lambda_gate=0.1, lambda_agree=0.1):
+    def compute_auxiliary_losses(self, rsa_target=None, bfactor_target=None,
+                                  lambda_gate=0.1, lambda_agree=0.1):
         device = self.last_x1.device if hasattr(self, 'last_x1') else torch.device('cpu')
         loss_gate = torch.tensor(0.0, device=device)
         loss_agree = torch.tensor(0.0, device=device)
 
         # 1. Biophysics-Supervised Gate Loss (Idea 1)
-        # Target gate: surface-exposed residues (RSA -> 1.0) use PLM features (gate -> 0.0),
-        # buried residues (RSA -> 0.0) use classical features (gate -> 1.0).
+        # Joint target: tau_i = 1 - [ALPHA_RSA * RSA_i + (1 - ALPHA_RSA) * B_norm_i]
+        # Surface (high RSA or high B-factor) -> tau -> 0 -> trust ESM-2 (gate->0).
+        # Buried (low RSA and low B-factor)   -> tau -> 1 -> trust classical (gate->1).
         if lambda_gate > 0 and self.last_gate_val is not None and rsa_target is not None:
-            target_g = 1.0 - rsa_target.float()
+            if bfactor_target is not None:
+                target_g = 1.0 - (ALPHA_RSA * rsa_target.float()
+                                   + (1.0 - ALPHA_RSA) * bfactor_target.float())
+            else:
+                # Fallback: RSA-only supervision (original behaviour)
+                target_g = 1.0 - rsa_target.float()
             loss_gate = nn.functional.mse_loss(self.last_gate_val.squeeze(-1), target_g)
 
         # 2. Branch-Disagreement Regularization (Idea 2)

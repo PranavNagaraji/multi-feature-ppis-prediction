@@ -39,7 +39,7 @@ def evaluate(model, data_loader):
 
     for data in data_loader:
         with torch.no_grad():
-            sequence_names, _, labels, node_features, G_batch, adj_matrix, xyz_feats, edges, edge_att, edge_feat, plm_features, rsa_features = data
+            sequence_names, _, labels, node_features, G_batch, adj_matrix, xyz_feats, edges, edge_att, edge_feat, plm_features, rsa_features, bfactor_features = data
 
             if torch.cuda.is_available():
                 node_features_dev = Variable(node_features.cuda().float())
