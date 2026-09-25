@@ -31,12 +31,12 @@ DIST_NORM = 15
 INPUT_DIM = 61  #61
 HIDDEN_DIM = 256  # hidden size of node features
 LAYER = 8  # the number of AGAT layers
-DROPOUT = 0.1
+DROPOUT = 0.3
 ALPHA = 0.7
 LAMBDA = 1.5
 
-LEARNING_RATE = 1E-3
-WEIGHT_DECAY = 0
+LEARNING_RATE = 1E-4
+WEIGHT_DECAY = 1e-4
 BATCH_SIZE = 1
 NUM_CLASSES = 2  # [not bind, bind]
 NUMBER_EPOCHS = 50

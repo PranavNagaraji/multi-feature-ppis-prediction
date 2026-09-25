@@ -1,4 +1,5 @@
 import sys
+import math
 import time
 import os
 import argparse
@@ -33,6 +34,27 @@ D_PROJ = args.d_proj
 model_time = args.model_time
 LAMBDA_GATE = args.lambda_gate
 LAMBDA_AGREE = args.lambda_agree
+
+
+class EarlyStopping:
+    """Stop training when val AUPRC hasn't improved for `patience` epochs."""
+    def __init__(self, patience=8, delta=0.0, path='checkpoint.pt'):
+        self.patience = patience
+        self.delta = delta
+        self.path = path
+        self.best_score = -math.inf
+        self.early_stop = False
+        self.counter = 0
+
+    def __call__(self, val_auprc, model):
+        if val_auprc > self.best_score + self.delta:
+            self.best_score = val_auprc
+            torch.save(model.state_dict(), self.path)
+            self.counter = 0
+        else:
+            self.counter += 1
+            if self.counter >= self.patience:
+                self.early_stop = True
 
 if args.smoke_test:
     NUMBER_EPOCHS = 1
@@ -214,7 +236,8 @@ def train(model, train_dataframe, valid_dataframe, fold = 0):
     best_val_auc = 0
     best_val_aupr = 0
 
-    # early_stopping = EarlyStopping(patience=5, delta=0, path=os.path.join(Model_Path, 'Fold' + str(fold) + '_best_model.pkl'))
+    early_stopping = EarlyStopping(patience=8, delta=0.0,
+                                   path=os.path.join(Model_Path, 'Fold' + str(fold) + '_best_model.pkl'))
 
     for epoch in range(NUMBER_EPOCHS):
         print("\n========== Train epoch " + str(epoch + 1) + " ==========")
@@ -242,16 +265,15 @@ def train(model, train_dataframe, valid_dataframe, fold = 0):
         print("Valid mcc: ", result_valid['mcc'])
 
 
-        # early_stopping(epoch_loss_valid_avg, model)
-        # if early_stopping.early_stop:
-        #     print("Early stopping")
-        #     break
+        early_stopping(result_valid['AUPRC'], model)
+        if early_stopping.early_stop:
+            print(f"Early stopping at epoch {epoch + 1} (no improvement for {early_stopping.patience} epochs)")
+            break
 
         if best_val_aupr < result_valid['AUPRC']:
             best_epoch = epoch + 1
             best_val_auc = result_valid['AUC']
             best_val_aupr = result_valid['AUPRC']
-            torch.save(model.state_dict(), os.path.join(Model_Path, 'Fold' + str(fold) + '_best_model.pkl'))
 
         model.scheduler.step(result_valid['AUPRC'])
 
