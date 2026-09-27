@@ -1,0 +1,38 @@
+Random seed: 2024
+The base Model type: AGAT
+Add node features: all
+Map cutoff: 14
+Use edge features or not while using GAT model: True
+The parameter of normalizing the distance: 15
+Feature dim: 61
+Hidden dim: 256
+Layer: 8
+Dropout: 0.1
+Alpha: 0.7
+Lambda: 1.5
+Learning rate: 0.001
+Training epochs: 50
+
+
+
+========== Fold 1 ==========
+Train on 267 samples, validate on 67 samples
+Fold 1 neg/pos weight: 5.5172
+
+========== Train epoch 1 ==========
+========== Evaluate Train set ==========
+Train loss:  1.2700783652201126
+Train binary acc:  0.15763891446036013
+Train AUC:  0.7438932140757142
+Train AUPRC:  0.36219182803126715
+========== Evaluate Valid set ==========
+Valid loss:  0.787629393499289
+Valid binary acc:  0.1716832016142593
+Valid precision:  0.16888813902480176
+Valid recall:  1.0
+Valid f1:  0.28897228637413397
+Valid AUC:  0.7437997202958788
+Valid AUPRC:  0.3794145374685312
+Valid mcc:  0.026132894605229745
+
+========== Train epoch 2 ==========

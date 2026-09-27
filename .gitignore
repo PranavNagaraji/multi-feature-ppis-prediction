@@ -5,8 +5,8 @@ venv/
 Feature/
 PDB/
 
-# Training outputs
-Log/
+# Training outputs (logs tracked, model binaries excluded)
+# Log/
 
 # Python cache
 __pycache__/
