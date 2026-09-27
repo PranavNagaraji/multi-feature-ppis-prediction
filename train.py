@@ -16,6 +16,12 @@ from final_model import ALPHA_RSA
 from GraphTransformer_Block import *
 from loss import compute_pos_weight
 
+# --- LEARNING_RATE OVERRIDE ---
+# data_generator.py sets LEARNING_RATE = 1E-4, but `from EGNN_model import *`
+# (line above) silently overwrites it with 1E-3 due to wildcard import order.
+# This explicit assignment is the canonical value for train.py. Do not remove.
+LEARNING_RATE = 1E-4
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--fusion_mode', type=str, default='none', choices=['none', 'concat', 'gated'])
 parser.add_argument('--d_proj', type=int, default=128)
@@ -416,6 +422,7 @@ class Logger(object):
 
 
 def main():
+    print(f"[runtime] LEARNING_RATE = {LEARNING_RATE}  (must be 1e-4; if 1e-3, wildcard import override failed)")
     if not os.path.exists(Log_path): os.makedirs(Log_path)
 
     with open(Dataset_Path + "Train_335.pkl", "rb") as f:

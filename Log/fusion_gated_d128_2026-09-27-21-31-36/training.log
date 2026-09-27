@@ -1,0 +1,48 @@
+[runtime] LEARNING_RATE = 0.0001  (must be 1e-4; if 1e-3, wildcard import override failed)
+Random seed: 2024
+The base Model type: AGAT
+Add node features: all
+Map cutoff: 14
+Use edge features or not while using GAT model: True
+The parameter of normalizing the distance: 15
+Feature dim: 61
+Hidden dim: 256
+Layer: 8
+Dropout: 0.3
+Alpha: 0.7
+Lambda: 1.5
+Learning rate: 0.0001
+Training epochs: 1
+[config] ALPHA_RSA=0.5
+
+
+
+========== Smoke Test Fold 1 ==========
+
+========== Train epoch 1 ==========
+========== Evaluate Train set ==========
+Train loss:  5.834130048751831
+Train binary acc:  0.7859327217125383
+Train AUC:  0.5662590327959978
+Train AUPRC:  0.22359670126970688
+========== Evaluate Valid set ==========
+Valid loss:  6.6248862743377686
+Valid binary acc:  0.7289156626506024
+Valid precision:  0.0
+Valid recall:  0.0
+Valid f1:  0.0
+Valid AUC:  0.6481175390266299
+Valid AUPRC:  0.386050326597594
+Valid mcc:  0.0
+
+
+Training a full model using all training data...
+
+Full model neg/pos weight: 3.6714
+
+========== Train epoch 1 ==========
+========== Evaluate Train set ==========
+Train loss:  11.551499128341675
+Train binary acc:  0.3149847094801223
+Train AUC:  0.6576987215119511
+Train AUPRC:  0.3315401424434403

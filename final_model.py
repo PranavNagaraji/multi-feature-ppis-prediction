@@ -8,6 +8,13 @@ from GraphTransformer_Block import *
 from fusion_module import FeatureFusionModule
 from loss import FocalLoss
 
+# --- LEARNING_RATE OVERRIDE ---
+# data_generator.py sets LEARNING_RATE = 1E-4, but `from EGNN_model import *`
+# silently overwrites it with 1E-3 due to wildcard import order.
+# This explicit assignment is the canonical value used by Adam. Do not remove.
+LEARNING_RATE = 1E-4
+
+
 # Default neg/pos ratio computed from the full Train_335 dataset
 # (55872 negative / 10336 positive = 5.4056). Used when no per-fold
 # pos_weight is supplied (e.g. during testing / checkpoint loading).
