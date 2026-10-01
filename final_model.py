@@ -24,7 +24,7 @@ _DEFAULT_POS_WEIGHT = 5.4056
 #   tau_i = 1 - [ALPHA_RSA * RSA_i + (1 - ALPHA_RSA) * B_norm_i]
 # ALPHA_RSA=1.0 reduces to pure-RSA supervision (original behaviour).
 # Not a learnable parameter: a learnable alpha under MSE is degenerate.
-ALPHA_RSA = 0.5
+ALPHA_RSA = 1.0  # arm 1: RSA-only baseline (was 0.5 for joint RSA+Bfactor)
 
 
 class FinalModel(nn.Module):

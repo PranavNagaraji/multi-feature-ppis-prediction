@@ -242,8 +242,8 @@ def train(model, train_dataframe, valid_dataframe, fold = 0):
     best_val_auc = 0
     best_val_aupr = 0
 
-    early_stopping = EarlyStopping(patience=8, delta=0.0,
-                                   path=os.path.join(Model_Path, 'Fold' + str(fold) + '_best_model.pkl'))
+    # early_stopping = EarlyStopping(patience=8, delta=0.0,
+    #                                path=os.path.join(Model_Path, 'Fold' + str(fold) + '_best_model.pkl'))  # commented out for ALPHA_RSA ablation
 
     for epoch in range(NUMBER_EPOCHS):
         print("\n========== Train epoch " + str(epoch + 1) + " ==========")
@@ -271,10 +271,10 @@ def train(model, train_dataframe, valid_dataframe, fold = 0):
         print("Valid mcc: ", result_valid['mcc'])
 
 
-        early_stopping(result_valid['AUPRC'], model)
-        if early_stopping.early_stop:
-            print(f"Early stopping at epoch {epoch + 1} (no improvement for {early_stopping.patience} epochs)")
-            break
+        # early_stopping(result_valid['AUPRC'], model)  # commented out for ALPHA_RSA ablation
+        # if early_stopping.early_stop:
+        #     print(f"Early stopping at epoch {epoch + 1} (no improvement for {early_stopping.patience} epochs)")
+        #     break
 
         if best_val_aupr < result_valid['AUPRC']:
             best_epoch = epoch + 1
