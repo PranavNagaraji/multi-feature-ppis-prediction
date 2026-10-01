@@ -1,267 +1,164 @@
-# GTE-PPIS Modified — Antigravity Project Context
-
-## 1. Project Overview
-
-I am working on a research project based on GTE-PPIS (Graph-based Transformer/EGNN approach for Protein-Protein Interaction Site prediction).
-
-The project is a modified version of GTE-PPIS. The main research idea is a **Feature Fusion Module (FFM)** that combines the model's raw node/residue features with evolutionary/sequence-derived information before the EGNN + GraphTransformer processing.
-
-The goal is to evaluate whether this additional feature fusion improves PPIS prediction compared with the original GTE-PPIS model.
+# GTE-PPIS Modified — Project Context
+**Last updated: 2026-10-01**
 
 ---
 
-## 2. Current Architecture / Research Setup
+## 1. Who
 
-Important components discussed so far:
-
-- Base architecture: GTE-PPIS
-- Added component: Feature Fusion Module (FFM)
-- Evolutionary/sequence feature streams:
-  - ESM-2 650M embeddings
-  - PSSM/HMM features
-- Fusion modes currently considered:
-  - `none`
-  - `concat`
-  - `gated`
-  - `cross_attn`
-- Projection dimension:
-  - `d_proj = 128`
-- The evolutionary features are intended to complement the structural/raw node features rather than simply replace them.
-
-Do NOT assume that every proposed experiment has already been run. Check the actual source code and logs before claiming that an experiment or result exists.
+B.Tech 4th-year (final-year) student. This is the B.Tech final-year project.
 
 ---
 
-## 3. Dataset Information
+## 2. Project Overview
 
-Datasets currently relevant to evaluation:
+A research project built on top of **GTE-PPIS** (Wang et al., *Bioinformatics* 2025, PMC12199915), a graph-based dual-branch model (EGNN + Graph Transformer) for residue-level Protein-Protein Interaction Site (PPIS) prediction.
 
-- `Train_335.pkl`
-- `Test_60.pkl`
-- `Test_315-28.pkl`
-- `UBtest_31-6.pkl`
-
-Protein `2j3rA` was removed/excluded.
-
-Cross-validation seed:
-
-- `2024`
+The core novel contribution is a **Feature Fusion Module (FFM)** that learns to combine two evolutionary/sequence feature streams — handcrafted PSSM+HMM and pre-trained ESM-2 650M embeddings — using learned gating before the GNN branches process node features. Two additional **auxiliary biophysical training objectives** further guide the gate using structural priors.
 
 ---
 
-## 4. RSA Research Direction
+## 3. Architecture — Current Actual Implementation
 
-A major current research question is how **RSA (Relative Solvent Accessibility)** can help the PPIS prediction task.
+### Input node features (61d total, unchanged from GTE-PPIS)
+- DSSP: 14d (structural/secondary structure)
+- PSSM: 20d (evolutionary, handcrafted)
+- HMM: 20d (evolutionary, handcrafted)
+- resAF: 7d (residue atom features)
 
-The expected research reasoning is:
+### Feature Fusion Module (FFM) — `fusion_module.py`
 
-- RSA provides information about how exposed a residue is to the solvent.
-- Interface residues are often associated with surface accessibility.
-- Therefore RSA can provide complementary structural/biophysical information to the model.
-- The expected benefit is better discrimination between interface and non-interface residues, especially when geometric or sequence features alone are ambiguous.
+Placed **between** raw node features and GNN branches. Acts **only on the evolutionary streams** (PSSM 20d + HMM 20d = 40d), leaving DSSP and resAF untouched.
 
-However, do not claim that RSA definitely improves performance until experiments demonstrate it.
+**Input streams per residue i:**
+1. `classical_i`: PSSM+HMM (40d)
+2. `plm_i`: ESM-2 650M per-residue embeddings (1280d), cached as float32 from float16
 
-When discussing RSA, distinguish clearly between:
-1. biological motivation,
-2. expected mechanism,
-3. experimentally observed result.
+**Projection (shared dimension `d_proj=128`):**
+- `classical_proj = LayerNorm(Linear(40→128)(classical_i))`
+- `plm_proj = LayerNorm(Linear(1280→128)(plm_i))`
+- Both: Xavier uniform init (gain=1.0), zero bias
 
----
+**Fusion modes (selectable via `--fusion_mode`):**
 
-## 5. Evaluation Metrics
+| Mode | Computation | Output dim |
+|---|---|---|
+| `none` | FFM bypassed entirely | 61d (original) |
+| `concat` | `[c_proj ‖ p_proj]` → 256d | 256 + 14 + 7 = **277d** |
+| `gated` | `g_i = σ(Linear(256→1))`, `f_i = g_i·c_proj + (1-g_i)·p_proj` | 128 + 14 + 7 = **149d** |
 
-The main evaluation metrics being considered are:
+> `cross_attn` mode was **removed** (commit `d6864e3`, Sep 12 2026) — confirmed unused in any production run and had a silent `gate_val=None` bug.
 
-- AUROC
-- AUPRC
-- MCC
-- Accuracy
-- Precision
-- Recall
-- F1
+**Re-concatenation:** Final node features = `[fused_i ‖ DSSP_i ‖ resAF_i]`
 
-For PPIS, the dataset can be imbalanced, so accuracy alone is not sufficient.
+### GNN Branches (`final_model.py`)
+- **EGNN** (`EGNN_model.py`): 10 layers, `residual=True`, `tanh=True`, `attention=True`
+- **Graph Transformer** (`GraphTransformer_Block.py`): 4 layers, `transformer_residual=True`
+- Final prediction: element-wise average of EGNN and GT logits → `(x1 + x2) / 2`
 
-Important interpretation:
+### Loss — `loss.py` + `final_model.py`
 
-### AUROC
-Measures ranking/discrimination between positive and negative residues across classification thresholds.
+```
+L_total = L_focal + λ_gate · L_gate + λ_agree · L_agree
+```
 
-### AUPRC
-Especially important when the positive class is relatively rare because it focuses on precision-recall behaviour and is more informative about positive-class detection.
+- **L_focal**: Focal Loss (Lin et al. 2017), α = [1.0, neg/pos ratio per fold], γ configurable (`--focal_gamma`, default 2.0; γ=0 → weighted CE)
+- **L_gate** (Idea 1, Biophysics-Supervised Gate): MSE between predicted gate and `τ_i = 1 - [α_RSA · RSA_i + (1 - α_RSA) · B_norm_i]`
+  - Buried residues (low RSA, low B-factor) → τ→1 → trust classical features
+  - Surface/flexible residues (high RSA or B-factor) → τ→0 → trust PLM features
+  - `ALPHA_RSA` in `final_model.py` (line 27): currently `0.5` (joint RSA+Bfactor supervision)
+- **L_agree** (Idea 2, Branch Agreement Regularisation): MSE between softmax(EGNN logits) and softmax(GT logits)
 
-### MCC
-Useful as a balanced single-score metric using all four confusion-matrix components (TP, TN, FP, FN). It is useful for evaluating the final classification quality under class imbalance.
-
-### Accuracy
-Can be misleading with imbalanced data because a model can obtain high accuracy while performing poorly on the minority/interface class.
-
-For the paper, do not treat one metric as universally "best". A reasonable emphasis is:
-1. AUPRC — particularly important for minority-positive PPIS detection.
-2. MCC — strong threshold-based overall classification metric under imbalance.
-3. AUROC — useful threshold-independent ranking/discrimination metric.
-4. F1 / precision / recall — useful for positive-class behaviour.
-5. Accuracy — supplementary rather than the primary metric.
-
-Use the actual experimental results to determine the final conclusions.
-
----
-
-## 6. BCE vs Focal Loss
-
-Another possible experiment is replacing Binary Cross Entropy (BCE) with focal loss.
-
-Research motivation:
-
-- BCE treats training examples more uniformly.
-- Focal loss reduces the relative contribution of easy examples and focuses training more strongly on difficult/misclassified examples.
-- This can potentially help with class imbalance and hard interface/non-interface residue discrimination.
-
-Important:
-- A loss value greater than 1 is NOT automatically a problem for focal loss.
-- Loss scales depend on the loss definition and implementation.
-- Do not compare raw BCE and focal-loss numerical values as if they were directly equivalent.
-
-Focal loss should be presented as an experimental modification, not as guaranteed improvement.
+### Key constants (canonical values as of Oct 1, 2026)
+| Constant | Value | Source |
+|---|---|---|
+| `LEARNING_RATE` | `1e-4` | `data_generator.py` L38, explicitly re-set in `final_model.py` L15 and `train.py` L23 (wildcard import collision fix) |
+| `WEIGHT_DECAY` | `1e-4` | `data_generator.py` L39 |
+| `SEED` | `2024` | `data_generator.py` L15 |
+| `BATCH_SIZE` | `1` | `data_generator.py` L40 |
+| `NUMBER_EPOCHS` | `50` | `data_generator.py` L42 |
+| `MAP_CUTOFF` | `14` Å | `data_generator.py` L28 |
+| `ALPHA_RSA` | `0.5` | `final_model.py` L27 |
+| `_DEFAULT_POS_WEIGHT` | `5.4056` | `final_model.py` L21 |
 
 ---
 
-## 7. Known Experimental / Debugging Context
+## 4. Datasets
 
-There have been training runs using gated fusion.
+| Dataset | Description | Residues | % Positive |
+|---|---|---|---|
+| `Train_335.pkl` | Training set (335 proteins, −2j3rA → 334 used) | 66,208 | ~15.6% |
+| `Test_60.pkl` | Bound test set | 13,144 | ~15.6% |
+| `Test_315-28.pkl` | Larger bound test set | 60,376 | — |
+| `UBtest_31-6.pkl` | **Unbound** test set (harder) | 5,917 | — |
 
-One earlier run:
-- `fusion_gated_d128_2026-07-23-15-16-42`
-
-This run showed cases where:
-- MCC/F1/precision/recall were 0 for some validation epochs
-- while AUC/AUPRC were non-zero
-
-This can happen when the model ranks examples reasonably but the selected classification threshold produces poor positive predictions.
-
-A later run:
-- `fusion_gated_d128_2026-07-30-12-18-16`
-
-A validation-threshold leakage issue in `test.py` was addressed:
-- thresholds should be determined using the validation fold
-- test labels must NOT be used to choose the test threshold
-
-This distinction is important for fair evaluation.
-
-Do not assume a particular epoch is the best model unless the actual logs/checkpoints confirm it.
+- `2j3rA` excluded from Train_335 (ESM-2 embedding unavailable at time of extraction).
+- Cross-validation: 5-fold, SEED=2024.
 
 ---
 
-## 8. Comparison With Original GTE-PPIS
+## 5. Feature Files (on disk)
 
-The research should compare the modified model against the original GTE-PPIS fairly.
+| Feature | Directory | Generator script |
+|---|---|---|
+| DSSP | `Feature/dssp/` | — (pre-existing) |
+| PSSM | `Feature/pssm/` | — (pre-existing) |
+| HMM | `Feature/hmm/` | — (pre-existing) |
+| resAF | `Feature/resAF/` | — (pre-existing) |
+| Distance maps | `Feature/distance_map_SC/` | — (pre-existing) |
+| Pseudopositions | `Feature/psepos/` | `generate_psepos.py` |
+| ESM-2 embeddings | `Feature/esm2/` | `generate_esm2_embeddings.py` |
+| RSA | `Feature/rsa/` | `generate_rsa_features.py` (FreeSASA) |
+| B-factor | `Feature/bfactor/` | `generate_bfactor_features.py` |
 
-Relevant test sets:
-- Test-60 / `Test_60.pkl`
-- Test-315-28 / `Test_315-28.pkl`
-- UB test / `UBtest_31-6.pkl`
+**RSA fallback:** 0.5 for proteins without PDB (`2j3rA` is the only known case in Train_335).
 
-When comparing:
-- use the same dataset definitions where applicable
-- use consistent evaluation procedures
-- avoid comparing metrics produced using different threshold-selection procedures
-- distinguish validation performance from independent test performance
-
-Never invent original GTE-PPIS metrics or modified-model metrics. Retrieve them from the actual paper, source files, or experiment logs when needed.
-
----
-
-## 9. Research Novelty
-
-The intended novelty is not simply "using ESM-2" or "using a GNN".
-
-The focus is on integrating additional sequence/evolutionary information into the existing GTE-PPIS architecture through a dedicated feature-fusion mechanism and investigating different fusion strategies.
-
-Potential research questions include:
-
-- Does feature fusion improve over the original GTE-PPIS representation?
-- Which fusion strategy works best?
-- Does gated fusion selectively weight useful evolutionary information?
-- Does cross-attention provide better interaction between feature streams?
-- Does RSA add complementary structural information?
-- Does focal loss improve minority/hard-example learning?
-- Are improvements consistent across Test-60, Test-315-28 and UBtest-31-6?
-
-These are research hypotheses and must be validated experimentally.
+**B-factor fallback (0.5):** 4 proteins — `3zeuD` (PDB/sequence length mismatch, 6 interior gaps), `1cdbA`, `1ci5A`, `1qndA` (all-zero B-factor distributions, degenerate).
 
 ---
 
-## 10. Project Files / Working Rules
+## 6. Evaluation Protocol
 
-The important source files may include:
-
-- `train.py`
-- `test.py`
-- model/architecture files
-- feature extraction/preprocessing scripts
-- experiment logs
-- saved checkpoints
-- feature files under `Feature/`
-- ESM embeddings under `Feature/esm2`
-- PDB-related data under `PDB/`
-
-Current environment context:
-- Ubuntu 24.04.x
-- Python 3.10.x
-- NVIDIA GPU environment
-- project path previously used: `~/PRANAV/GTE-PPIS`
-- modified GitHub repository target: `PranavNagaraji/GTE-PPIS_Modified`
-
-Do not modify code blindly.
-
-Before making architectural or experimental changes:
-1. Inspect the relevant existing files.
-2. Explain what the current implementation does.
-3. Identify the smallest necessary change.
-4. Make changes without unnecessarily renaming variables or restructuring unrelated code.
-5. Preserve the existing experimental setup unless the requested change requires otherwise.
+- 5-fold cross-validation
+- **Validation-locked threshold**: threshold chosen on validation fold (maximises val F1), then locked before evaluating test set. No test-label leakage.
+- Primary metrics: AUPRC, MCC, AUROC
+- Secondary: F1, Precision, Recall, Accuracy
 
 ---
 
-## 11. User's Coding Preferences
+## 7. CLI Flags (train.py / test.py)
 
-When helping with this project:
-
-- Build on the existing code.
-- Make minimal changes.
-- Do not rename variables unnecessarily.
-- Do not rewrite entire files unless explicitly requested.
-- Do not add unnecessary templates/comments.
-- For debugging, identify the exact issue and give the next step.
-- Keep explanations short unless I explicitly ask for detailed/elaborate theory.
-- Never invent results.
-- If a conclusion depends on a file/log, inspect that file first.
-- Clearly separate:
-  - observed result,
-  - expected behaviour,
-  - hypothesis/speculation.
+| Flag | Default | Description |
+|---|---|---|
+| `--fusion_mode` | `none` | `none` / `concat` / `gated` |
+| `--d_proj` | `128` | Shared projection dimension |
+| `--focal_gamma` | `2.0` | Focal Loss γ (0 = weighted CE) |
+| `--lambda_gate` | `0.1` | RSA+Bfactor gate supervision weight |
+| `--lambda_agree` | `0.1` | Branch agreement regularisation weight |
+| `--smoke_test` | off | 2-sample, 1-fold, 1-epoch verification |
+| `--model_time` | — | train.py: override log folder name |
+| `--model_dir` | — | test.py: path to checkpoint directory (required) |
 
 ---
 
-## 12. Critical Instruction for Antigravity
+## 8. Comparison Baselines (published)
 
-This context is background knowledge only.
+**GTE-PPIS paper** (Wang et al., *Bioinformatics* 2025, Table 2–3, PMC12199915):
+- Test_60: AUROC=0.873, AUPRC=0.611, MCC=0.471 (paper's MCC=0.500 uses a different threshold protocol)
+- Test_315-28: AUPRC=0.598, MCC=0.511
 
-**The actual repository files and experiment logs are the source of truth.**
+**DHEG** (*Briefings in Bioinformatics* 2026):
+- Test_60: AUROC=0.900, AUPRC=0.686, MCC=0.580, F1=0.648
 
-Before answering questions about:
-- architecture,
-- metrics,
-- training behaviour,
-- test results,
-- thresholds,
-- RSA implementation,
-- focal loss implementation,
-- fusion implementation,
+**Important caveat:** Paper threshold protocols are unconfirmed — they may include test-label tuning. Our results use strictly validation-locked thresholds.
 
-inspect the actual project files/logs.
+---
 
-If the repository contradicts this context, trust the repository and explain the discrepancy.
+## 9. Working Rules for Antigravity
 
-Do not fabricate missing metrics, experiments, code, or conclusions.
+1. **Repository files and logs are the source of truth.** This context file is background, not ground truth.
+2. Before answering questions about metrics, architecture, or training state — inspect actual files/logs.
+3. If this file contradicts the actual code, trust the code and explain the discrepancy.
+4. Never fabricate metrics, experiments, or conclusions.
+5. Make minimal changes. Do not rename variables unnecessarily. Do not rewrite entire files unless explicitly requested.
+6. Clearly separate: observed result vs expected behaviour vs hypothesis/speculation.
+7. Early stopping is **currently commented out** in `train.py` (lines 245, 275–277 as of the last ablation setup).

@@ -1,0 +1,333 @@
+==============================================
+Evaluate on Test_60
+==============================================
+Fold1_best_model.pkl
+Validation threshold for Fold1_best_model.pkl (Fold 1): 0.53 (val F1: 0.5156)
+Saved 13144 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold1_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  2.792220629254977
+Test binary acc:  0.8070602556299452
+Test precision: 0.4004319654427646
+Test recall:  0.44674698795180723
+Test f1:  0.4223234624145786
+Test AUROC:  0.7757138518841832
+Test MCC:  0.3075914259726482
+Test AUPRC:  0.41328888133641745
+Threshold:  0.53
+
+Fold2_best_model.pkl
+Validation threshold for Fold2_best_model.pkl (Fold 2): 0.54 (val F1: 0.4526)
+Saved 13144 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold2_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  1.3185357910891373
+Test binary acc:  0.7980066950699939
+Test precision: 0.3958333333333333
+Test recall:  0.5310843373493976
+Test f1:  0.45359127392467585
+Test AUROC:  0.786162722985174
+Test MCC:  0.33832578419698056
+Test AUPRC:  0.42668586433212663
+Threshold:  0.54
+
+Fold3_best_model.pkl
+Validation threshold for Fold3_best_model.pkl (Fold 3): 0.45 (val F1: 0.5141)
+Saved 13144 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold3_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.8101202408472697
+Test binary acc:  0.7923767498478393
+Test precision: 0.4054913294797688
+Test recall:  0.676144578313253
+Test f1:  0.5069557362240289
+Test AUROC:  0.8267584385785984
+Test MCC:  0.4059464905177059
+Test AUPRC:  0.5060883357534945
+Threshold:  0.45
+
+Fold4_best_model.pkl
+Validation threshold for Fold4_best_model.pkl (Fold 4): 0.50 (val F1: 0.4522)
+Saved 13144 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold4_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  1.1172086025277774
+Test binary acc:  0.8192331101643335
+Test precision: 0.43798928718582614
+Test recall:  0.512289156626506
+Test f1:  0.4722345624167037
+Test AUROC:  0.800048545432974
+Test MCC:  0.3656037962267483
+Test AUPRC:  0.46648714116738427
+Threshold:  0.5
+
+Fold5_best_model.pkl
+Validation threshold for Fold5_best_model.pkl (Fold 5): 0.79 (val F1: 0.5129)
+Saved 13144 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold5_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.6049973227083683
+Test binary acc:  0.8296561168594035
+Test precision: 0.4648370497427101
+Test recall:  0.5224096385542168
+Test f1:  0.4919446335375539
+Test AUROC:  0.811881157296999
+Test MCC:  0.3909956984095101
+Test AUPRC:  0.4762177003711291
+Threshold:  0.79
+
+Full_model_45.pkl
+Using average fold validation threshold for Full_model_45.pkl: 0.56
+Saved 13144 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Full_model_45.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  7.2009125004212065
+Test binary acc:  0.847839318320146
+Test precision: 0.524240465416936
+Test recall:  0.3908433734939759
+Test f1:  0.44781888459414687
+Test AUROC:  0.8133189728831307
+Test MCC:  0.36699571529145525
+Test AUPRC:  0.477197302101213
+Threshold:  0.562
+
+Full_model_6.pkl
+Using average fold validation threshold for Full_model_6.pkl: 0.56
+Saved 13144 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Full_model_6.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  1.043190878132979
+Test binary acc:  0.8292757151552039
+Test precision: 0.46515463917525773
+Test recall:  0.5436144578313253
+Test f1:  0.5013333333333333
+Test AUROC:  0.8267706728984779
+Test MCC:  0.4008561461269232
+Test AUPRC:  0.5002660284890088
+Threshold:  0.562
+
+========== Cross-Validation Results ==========
+Average binary acc:  0.8092665855143032
+Average precision:  0.42091659303688067
+Average recall:  0.5377349397590361
+Average f1:  0.4694099337035082
+Average AUROC:  0.8001129432355857
+Average MCC:  0.3616926390647186
+Average AUPRC:  0.4577535845921104
+Average threshold:  0.562
+
+==============================================
+Evaluate on Test_315-28
+==============================================
+Fold1_best_model.pkl
+Validation threshold for Fold1_best_model.pkl (Fold 1): 0.53 (val F1: 0.5156)
+Saved 60376 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold1_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  2.000632559069358
+Test binary acc:  0.797502318802173
+Test precision: 0.3524193548387097
+Test recall:  0.5101564324071912
+Test f1:  0.416865401125632
+Test AUROC:  0.7764988842158098
+Test MCC:  0.30676487898067156
+Test AUPRC:  0.3949606444209075
+Threshold:  0.53
+
+Fold2_best_model.pkl
+Validation threshold for Fold2_best_model.pkl (Fold 2): 0.54 (val F1: 0.4526)
+Saved 60376 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold2_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.9458398156984342
+Test binary acc:  0.76633099244733
+Test precision: 0.33381312222622045
+Test recall:  0.6497781928554751
+Test f1:  0.4410459587955626
+Test AUROC:  0.796531979421748
+Test MCC:  0.33977637671895883
+Test AUPRC:  0.42439077655475155
+Threshold:  0.54
+
+Fold3_best_model.pkl
+Validation threshold for Fold3_best_model.pkl (Fold 3): 0.45 (val F1: 0.5141)
+Saved 60376 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold3_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.6732212626975588
+Test binary acc:  0.7466211739764145
+Test precision: 0.3245046923879041
+Test recall:  0.7265935092225075
+Test f1:  0.44864124558494917
+Test AUROC:  0.8225513551621361
+Test MCC:  0.3571334795579677
+Test AUPRC:  0.45438096024162633
+Threshold:  0.45
+
+Fold4_best_model.pkl
+Validation threshold for Fold4_best_model.pkl (Fold 4): 0.50 (val F1: 0.4522)
+Saved 60376 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold4_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.8702010287536561
+Test binary acc:  0.7950841393931364
+Test precision: 0.3619814331302582
+Test recall:  0.5826523464861079
+Test f1:  0.44654200590498344
+Test AUROC:  0.8039006187544847
+Test MCC:  0.3431703679034879
+Test AUPRC:  0.41969392009368645
+Threshold:  0.5
+
+Fold5_best_model.pkl
+Validation threshold for Fold5_best_model.pkl (Fold 5): 0.79 (val F1: 0.5129)
+Saved 60376 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold5_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.6183412650840208
+Test binary acc:  0.8036802703060819
+Test precision: 0.37464724277324385
+Test recall:  0.5734298388979687
+Test f1:  0.4531992434377451
+Test AUROC:  0.8073342401741523
+Test MCC:  0.35135244866070114
+Test AUPRC:  0.42070916449497275
+Threshold:  0.79
+
+Full_model_45.pkl
+Using average fold validation threshold for Full_model_45.pkl: 0.56
+Saved 60376 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Full_model_45.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  5.407862214365072
+Test binary acc:  0.841427057108785
+Test precision: 0.4407894736842105
+Test recall:  0.4380107401354191
+Test f1:  0.4393957137838154
+Test AUROC:  0.802602667625287
+Test MCC:  0.3470519775782236
+Test AUPRC:  0.42810878117953727
+Threshold:  0.562
+
+Full_model_6.pkl
+Using average fold validation threshold for Full_model_6.pkl: 0.56
+Saved 60376 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Full_model_6.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.824375991777676
+Test binary acc:  0.8138498741221677
+Test precision: 0.398109323778303
+Test recall:  0.6096194256362363
+Test f1:  0.4816676659133884
+Test AUROC:  0.8266127282722665
+Test MCC:  0.386880156635183
+Test AUPRC:  0.4705381062811428
+Threshold:  0.562
+
+========== Cross-Validation Results ==========
+Average binary acc:  0.7818437789850272
+Average precision:  0.34947316907126724
+Average recall:  0.6085220639738501
+Average f1:  0.44125877096977445
+Average AUROC:  0.8013634155456663
+Average MCC:  0.3396395103643574
+Average AUPRC:  0.42282709316118894
+Average threshold:  0.562
+
+==============================================
+Evaluate on UBtest_31-6
+==============================================
+Fold1_best_model.pkl
+Validation threshold for Fold1_best_model.pkl (Fold 1): 0.53 (val F1: 0.5156)
+Saved 5917 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold1_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  2.3256951969861985
+Test binary acc:  0.8308264323136725
+Test precision: 0.33995584988962474
+Test recall:  0.43319268635724334
+Test f1:  0.38095238095238093
+Test AUROC:  0.7722062015428481
+Test MCC:  0.2874296974626269
+Test AUPRC:  0.3342516496780146
+Threshold:  0.53
+
+Fold2_best_model.pkl
+Validation threshold for Fold2_best_model.pkl (Fold 2): 0.54 (val F1: 0.4526)
+Saved 5917 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold2_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  1.0916969406604766
+Test binary acc:  0.8411357106641879
+Test precision: 0.37780149413020275
+Test recall:  0.4978902953586498
+Test f1:  0.42961165048543687
+Test AUROC:  0.805178542771972
+Test MCC:  0.34370182399180105
+Test AUPRC:  0.38634566157561395
+Threshold:  0.54
+
+Fold3_best_model.pkl
+Validation threshold for Fold3_best_model.pkl (Fold 3): 0.45 (val F1: 0.5141)
+Saved 5917 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold3_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.7216617608070374
+Test binary acc:  0.8374176102754775
+Test precision: 0.38764547896150403
+Test recall:  0.6090014064697609
+Test f1:  0.4737417943107221
+Test AUROC:  0.8241275213658589
+Test MCC:  0.3968416267341309
+Test AUPRC:  0.45114834272059573
+Threshold:  0.45
+
+Fold4_best_model.pkl
+Validation threshold for Fold4_best_model.pkl (Fold 4): 0.50 (val F1: 0.4522)
+Saved 5917 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold4_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.8780473941564559
+Test binary acc:  0.8477268886259929
+Test precision: 0.4018595041322314
+Test recall:  0.5471167369901547
+Test f1:  0.46337105419892793
+Test AUROC:  0.8198103129949054
+Test MCC:  0.38315655615011923
+Test AUPRC:  0.3924200474787725
+Threshold:  0.5
+
+Fold5_best_model.pkl
+Validation threshold for Fold5_best_model.pkl (Fold 5): 0.79 (val F1: 0.5129)
+Saved 5917 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Fold5_best_model.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.5299104046821594
+Test binary acc:  0.8600642217339868
+Test precision: 0.43314285714285716
+Test recall:  0.5330520393811533
+Test f1:  0.47793190416141235
+Test AUROC:  0.8305112082618077
+Test MCC:  0.40099109611890704
+Test AUPRC:  0.422633251055198
+Threshold:  0.79
+
+Full_model_45.pkl
+Using average fold validation threshold for Full_model_45.pkl: 0.56
+Saved 5917 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Full_model_45.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  6.331873440742493
+Test binary acc:  0.8629372993070813
+Test precision: 0.4125874125874126
+Test recall:  0.3319268635724332
+Test f1:  0.36788776305533905
+Test AUROC:  0.788873921846101
+Test MCC:  0.2942074020300586
+Test AUPRC:  0.3713857675543143
+Threshold:  0.562
+
+Full_model_6.pkl
+Using average fold validation threshold for Full_model_6.pkl: 0.56
+Saved 5917 gate records to Log/fusion_gated_d128_2026-10-01-21-39-58_joint_bfactor_rsa_lr1e4_fgamma0/model/Full_model_6.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.9002873218059539
+Test binary acc:  0.8612472536758492
+Test precision: 0.4317617866004963
+Test recall:  0.48945147679324896
+Test f1:  0.45880026367831245
+Test AUROC:  0.8299217121000165
+Test MCC:  0.38056257625190787
+Test AUPRC:  0.4284728275753792
+Threshold:  0.562
+
+========== Cross-Validation Results ==========
+Average binary acc:  0.8434341727226636
+Average precision:  0.38808103685128403
+Average recall:  0.5240506329113923
+Average f1:  0.44512175682177607
+Average AUROC:  0.8103667573874784
+Average MCC:  0.36242416009151707
+Average AUPRC:  0.39735979050163894
+Average threshold:  0.562
+
