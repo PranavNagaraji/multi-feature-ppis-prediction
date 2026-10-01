@@ -1,0 +1,117 @@
+==============================================
+Evaluate on Test_60
+==============================================
+Full_model_45.pkl
+Saved 13144 gate records to Log/fusion_gated_d128_2026-10-01-13-41-39_rsa_only_lr1e4/model/Full_model_45.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  2.886052791774273
+Test binary acc:  0.7967894096165551
+Test precision: 0.4079678814082767
+Test recall:  0.6366265060240964
+Test f1:  0.49727084509693203
+Test AUROC:  0.8100634029477745
+Test MCC:  0.3921654209095164
+Test AUPRC:  0.48765960249759505
+Threshold:  0.1
+
+Full_model_5.pkl
+Saved 13144 gate records to Log/fusion_gated_d128_2026-10-01-13-41-39_rsa_only_lr1e4/model/Full_model_5.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.6712067656219005
+Test binary acc:  0.784388314059647
+Test precision: 0.3902227364767139
+Test recall:  0.6501204819277109
+Test f1:  0.48770788141720894
+Test AUROC:  0.803939668693747
+Test MCC:  0.3806915983007948
+Test AUPRC:  0.4719514113880552
+Threshold:  0.57
+
+========== Cross-Validation Results ==========
+Average binary acc:  0.7905888618381011
+Average precision:  0.39909530894249534
+Average recall:  0.6433734939759037
+Average f1:  0.4924893632570705
+Average AUROC:  0.8070015358207607
+Average MCC:  0.3864285096051556
+Average AUPRC:  0.4798055069428251
+Average threshold:  0.33499999999999996
+
+==============================================
+Evaluate on Test_315-28
+==============================================
+Full_model_45.pkl
+Saved 60376 gate records to Log/fusion_gated_d128_2026-10-01-13-41-39_rsa_only_lr1e4/model/Full_model_45.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  2.31525035545178
+Test binary acc:  0.814926460845369
+Test precision: 0.3930972290539433
+Test recall:  0.5597711884193323
+Test f1:  0.4618570602966673
+Test AUROC:  0.7989682381740824
+Test MCC:  0.36227808492161945
+Test AUPRC:  0.426462117686224
+Threshold:  0.45
+
+Full_model_5.pkl
+Saved 60376 gate records to Log/fusion_gated_d128_2026-10-01-13-41-39_rsa_only_lr1e4/model/Full_model_5.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.5835166558986757
+Test binary acc:  0.8160196104412349
+Test precision: 0.39186659860473033
+Test recall:  0.5377072145692272
+Test f1:  0.4533464566929134
+Test AUROC:  0.8025506976653637
+Test MCC:  0.3522620784855132
+Test AUPRC:  0.42873660153671356
+Threshold:  0.67
+
+========== Cross-Validation Results ==========
+Average binary acc:  0.815473035643302
+Average precision:  0.39248191382933684
+Average recall:  0.5487392014942798
+Average f1:  0.45760175849479034
+Average AUROC:  0.800759467919723
+Average MCC:  0.35727008170356633
+Average AUPRC:  0.4275993596114688
+Average threshold:  0.56
+
+==============================================
+Evaluate on UBtest_31-6
+==============================================
+Full_model_45.pkl
+Saved 5917 gate records to Log/fusion_gated_d128_2026-10-01-13-41-39_rsa_only_lr1e4/model/Full_model_45.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  2.8115140414237976
+Test binary acc:  0.8668244042589149
+Test precision: 0.4391785150078989
+Test recall:  0.3909985935302391
+Test f1:  0.41369047619047616
+Test AUROC:  0.7756506476082718
+Test MCC:  0.3395845877385603
+Test AUPRC:  0.3804935267652092
+Threshold:  0.64
+
+Full_model_5.pkl
+Saved 5917 gate records to Log/fusion_gated_d128_2026-10-01-13-41-39_rsa_only_lr1e4/model/Full_model_5.pkl_gate_records.csv
+========== Evaluate Test set ==========
+Test loss:  0.6196609276533127
+Test binary acc:  0.8580361669765084
+Test precision: 0.4178343949044586
+Test recall:  0.4613220815752461
+Test f1:  0.4385026737967914
+Test AUROC:  0.7916131068068706
+Test MCC:  0.3580505923654
+Test AUPRC:  0.3923066096127763
+Threshold:  0.66
+
+========== Cross-Validation Results ==========
+Average binary acc:  0.8624302856177117
+Average precision:  0.4285064549561788
+Average recall:  0.42616033755274263
+Average f1:  0.4260965749936338
+Average AUROC:  0.7836318772075712
+Average MCC:  0.34881759005198015
+Average AUPRC:  0.38640006818899275
+Average threshold:  0.65
+

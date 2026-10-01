@@ -243,7 +243,8 @@ def train(model, train_dataframe, valid_dataframe, fold = 0):
     best_val_aupr = 0
 
     # early_stopping = EarlyStopping(patience=8, delta=0.0,
-    #                                path=os.path.join(Model_Path, 'Fold' + str(fold) + '_best_model.pkl'))  # commented out for ALPHA_RSA ablation
+    #                                path=os.path.join(Model_Path, 'Fold' + str(fold) + '_best_model.pkl'))
+    # commented out for ALPHA_RSA ablation — restore to re-enable early exit
 
     for epoch in range(NUMBER_EPOCHS):
         print("\n========== Train epoch " + str(epoch + 1) + " ==========")
@@ -271,15 +272,19 @@ def train(model, train_dataframe, valid_dataframe, fold = 0):
         print("Valid mcc: ", result_valid['mcc'])
 
 
-        # early_stopping(result_valid['AUPRC'], model)  # commented out for ALPHA_RSA ablation
-        # if early_stopping.early_stop:
-        #     print(f"Early stopping at epoch {epoch + 1} (no improvement for {early_stopping.patience} epochs)")
-        #     break
+        # early_stopping(result_valid['AUPRC'], model)         # commented out for ALPHA_RSA ablation
+        # if early_stopping.early_stop:                        # commented out for ALPHA_RSA ablation
+        #     print(f"Early stopping at epoch {epoch + 1} ...") # commented out for ALPHA_RSA ablation
+        #     break                                             # commented out for ALPHA_RSA ablation
 
         if best_val_aupr < result_valid['AUPRC']:
             best_epoch = epoch + 1
             best_val_auc = result_valid['AUC']
             best_val_aupr = result_valid['AUPRC']
+            # Save best-AUPRC checkpoint unconditionally — independent of EarlyStopping.
+            # Original behaviour from pre-87063a1: checkpoint is always written here
+            # so that disabling EarlyStopping does not silently break fold saves.
+            torch.save(model.state_dict(), os.path.join(Model_Path, 'Fold' + str(fold) + '_best_model.pkl'))
 
         model.scheduler.step(result_valid['AUPRC'])
 
